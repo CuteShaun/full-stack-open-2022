@@ -1,5 +1,5 @@
 import React from 'react';
 
-const Total = () => <div></div>
+const Total = ({exerciseSum}) => <p>Number of exercises {exerciseSum}</p>
 
 export default Total;
