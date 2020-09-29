@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
 import Button from './components/button/Button';
-import Quantity from './components/quantity/Quantity';
 import Title from './components/title/Title';
+import Statistics from './components/statistics/Statistics';
 
 const App = () => {
   const [good, setGood] = useState(0)
@@ -22,12 +22,30 @@ const App = () => {
     setBad(bad + 1);
   }
 
+  const countPositive = () => {
+    return good / (good + neutral + bad) * 100;
+  }
+
+  const ratingSum = () => {
+    return good + neutral + bad;
+  }
+
+  const countAverage = () => {
+    return (good * 1 + bad * -1) / ratingSum();
+
+  }
+
   const parts = [
     {rating: 'good', quantity: good, handler: handleGood},
     {rating: 'neutral', quantity: neutral, handler: handleNeutral},
     {rating: 'bad', quantity: bad, handler: handleBad},
-  ]
+  ];
 
+  const statParts = [
+    {rating: 'all', quantity: ratingSum()},
+    {rating: 'average', quantity: countAverage()},
+    {rating: 'positive', quantity: `${countPositive()} %`},
+  ]
 
   return (
     <>
@@ -35,14 +53,12 @@ const App = () => {
       <Title title="give feedback"/>
 
       <div>
-        {parts.map(part => <Button rating={part.rating} handleClick={part.handler}/>)}
+        {parts.map(part => <Button rating={part.rating} key={part.rating} handleClick={part.handler}/>)}
       </div>
 
       <Title title="statistics"/>
 
-      <div>
-        {parts.map(part => <Quantity quantity={part.quantity} rating={part.rating}/>)}
-      </div>
+      <Statistics good={good} neutral={neutral} bad={bad} parts={parts} statParts={statParts}/>
 
     </>
   )
