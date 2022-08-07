@@ -25,5 +25,3 @@ const CountriesList = ({ countries = [], country, setCountry }) => {
 };
 
 export default CountriesList;
-
-//todo 2.13
